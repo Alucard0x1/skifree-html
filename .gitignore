@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+Thumbs.db
+.vercel/
+*.log
+
+# never commit the original game binaries or their extracted artwork
+artifacts/
+*.exe
+*.zip
+analysis/

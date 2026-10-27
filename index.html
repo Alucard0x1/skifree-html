@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0d1b2a">
+<title>SkiFree — HTML5 Port</title>
+<meta name="description" content="SkiFree (Chris Pirih, 1991) rebuilt for the browser: slalom, tree slalom, freestyle — and the yeti still eats you.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <canvas id="game" aria-label="SkiFree game canvas"></canvas>
+
+  <div id="hud" class="hud hidden">
+    <div class="row"><span class="lbl">Time:</span><span id="hud-time">00:00.0</span></div>
+    <div class="row"><span class="lbl">Dist:</span><span id="hud-dist">0000m</span></div>
+    <div class="row"><span class="lbl">Speed:</span><span id="hud-speed">00.0m/s</span></div>
+    <div class="row"><span class="lbl">Style:</span><span id="hud-style">0000000</span></div>
+    <div id="hud-mode">Freestyle</div>
+  </div>
+
+  <button id="btn-pause" class="icon-btn hidden" aria-label="Pause">II</button>
+  <button id="btn-sound" class="icon-btn sound" aria-label="Toggle sound">♪</button>
+
+  <div id="menu" class="overlay">
+    <h1>Ski<span>Free</span></h1>
+    <p class="sub">Windows 3.1 classic · 1991 · rebuilt for the browser</p>
+    <div class="modes">
+      <button class="mode" data-mode="slalom">
+        <strong>Slalom</strong>
+        <small>540 m timed course, ski past the flags</small>
+      </button>
+      <button class="mode" data-mode="tree">
+        <strong>Tree Slalom</strong>
+        <small>1040 m — same course, way more trees</small>
+      </button>
+      <button class="mode" data-mode="freestyle">
+        <strong>Freestyle</strong>
+        <small>untimed, hunt jumps and rack up style</small>
+      </button>
+    </div>
+    <p class="hint">Arrows / WASD steer · Space hops rocks · P pauses · R restarts</p>
+    <p class="hint touch">Drag anywhere or use the arrows to steer · tap the snow to hop</p>
+  </div>
+
+  <div id="over" class="overlay hidden">
+    <h2 id="over-title">OUCH!</h2>
+    <p id="over-line" class="sub"></p>
+    <div class="scores">
+      <div class="row"><span>Distance</span><b id="over-dist">0 m</b></div>
+      <div class="row"><span>Time</span><b id="over-time">0.0 s</b></div>
+      <div class="row"><span>Style</span><b id="over-style">0</b></div>
+      <div class="row"><span>Best</span><b id="over-best">0 m</b></div>
+    </div>
+    <div class="buttons">
+      <button id="again" class="primary">Ski again</button>
+      <button id="tomenu">Change course</button>
+    </div>
+  </div>
+
+  <div id="paused" class="overlay hidden">
+    <h2>Ski Paused</h2>
+    <p class="sub">Press P or tap to continue</p>
+    <button id="resume" class="primary">Continue</button>
+  </div>
+
+  <div id="touch" class="touch hidden">
+    <div class="dpad">
+      <button data-dir="7" class="up-left">↖</button>
+      <button data-dir="0" class="up">↑</button>
+      <button data-dir="1" class="up-right">↗</button>
+      <button data-dir="6" class="left">←</button>
+      <button data-dir="2" class="right">→</button>
+      <button data-dir="5" class="down-left">↙</button>
+      <button data-dir="4" class="down">↓</button>
+      <button data-dir="3" class="down-right">↘</button>
+    </div>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

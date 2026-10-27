@@ -1,0 +1,218 @@
+:root {
+  --snow: #f4f8fc;
+  --ink: #10222e;
+  --accent: #c0392b;
+  --deep: #0d1b2a;
+  --panel: #d8dde3;
+  --bevel-light: #ffffff;
+  --bevel-dark: #6d7681;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--deep);
+  color: var(--ink);
+  font-family: "Segoe UI", Tahoma, Verdana, system-ui, sans-serif;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+#app { position: fixed; inset: 0; }
+
+canvas#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  image-rendering: pixelated;
+}
+
+/* ---------------- HUD ---------------- */
+.hud {
+  position: absolute;
+  left: max(10px, env(safe-area-inset-left));
+  top: max(10px, env(safe-area-inset-top));
+  padding: 6px 10px 7px;
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(16, 34, 46, 0.18);
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.32;
+  color: #17232c;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  backdrop-filter: blur(2px);
+}
+.hud .row { display: flex; gap: 8px; white-space: nowrap; }
+.hud .lbl { color: #445c6b; min-width: 46px; }
+.hud #hud-mode {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(16, 34, 46, 0.25);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #5a7484;
+}
+
+/* ---------------- icon buttons ---------------- */
+.icon-btn {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top));
+  right: max(10px, env(safe-area-inset-right));
+  width: 38px;
+  height: 38px;
+  border-radius: 4px;
+  border-top: 2px solid var(--bevel-light);
+  border-left: 2px solid var(--bevel-light);
+  border-right: 2px solid var(--bevel-dark);
+  border-bottom: 2px solid var(--bevel-dark);
+  background: var(--panel);
+  color: #22323d;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0.92;
+}
+.icon-btn.sound { top: calc(max(10px, env(safe-area-inset-top)) + 46px); }
+.icon-btn:active { border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark); }
+.icon-btn.muted { color: #97a3ad; }
+
+/* ---------------- overlays ---------------- */
+.overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(440px, calc(100vw - 28px));
+  max-height: calc(100vh - 28px);
+  overflow: auto;
+  padding: 18px 18px 16px;
+  text-align: center;
+  background: var(--panel);
+  border-top: 3px solid var(--bevel-light);
+  border-left: 3px solid var(--bevel-light);
+  border-right: 3px solid var(--bevel-dark);
+  border-bottom: 3px solid var(--bevel-dark);
+  box-shadow: 0 18px 48px rgba(4, 12, 18, 0.45);
+  border-radius: 2px;
+}
+.overlay.hidden, .hidden { display: none !important; }
+
+.overlay h1 {
+  margin: 2px 0 4px;
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: #16232d;
+}
+.overlay h1 span { color: var(--accent); }
+.overlay h2 { margin: 2px 0 6px; font-size: 26px; letter-spacing: -0.01em; }
+.overlay .sub { margin: 0 0 14px; font-size: 12px; color: #4c6473; }
+
+.modes { display: grid; gap: 9px; margin-bottom: 12px; }
+.mode {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  text-align: left;
+  cursor: pointer;
+  background: #e7ebef;
+  color: #1b2b36;
+  border-top: 2px solid var(--bevel-light);
+  border-left: 2px solid var(--bevel-light);
+  border-right: 2px solid var(--bevel-dark);
+  border-bottom: 2px solid var(--bevel-dark);
+  border-radius: 2px;
+}
+.mode strong { display: block; font-size: 15px; }
+.mode small { display: block; font-size: 11px; color: #52697a; margin-top: 2px; }
+.mode:hover { background: #f2f5f8; }
+.mode:active { border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark); }
+
+.buttons { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; }
+.buttons button, .overlay .primary {
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #e7ebef;
+  color: #1b2b36;
+  border-top: 2px solid var(--bevel-light);
+  border-left: 2px solid var(--bevel-light);
+  border-right: 2px solid var(--bevel-dark);
+  border-bottom: 2px solid var(--bevel-dark);
+  border-radius: 2px;
+}
+.overlay .primary { background: #cbe3d2; }
+.overlay .primary:active, .buttons button:active { border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark); }
+
+.scores {
+  margin: 6px 0 14px;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+.scores .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 2px;
+  border-bottom: 1px dotted rgba(16, 34, 46, 0.22);
+}
+.scores .row span { color: #4c6473; }
+
+.hint {
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: #4c6473;
+}
+.hint.touch { display: none; }
+
+/* ---------------- touch controls ---------------- */
+.touch {
+  position: absolute;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  user-select: none;
+}
+.dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 46px);
+  grid-template-rows: repeat(3, 46px);
+  gap: 4px;
+}
+.dpad button {
+  border: none;
+  border-radius: 5px;
+  background: rgba(20, 40, 55, 0.42);
+  color: #f2f7fb;
+  font-size: 17px;
+  line-height: 1;
+  backdrop-filter: blur(3px);
+  touch-action: none;
+}
+.dpad button:active, .dpad button.held { background: rgba(192, 57, 43, 0.72); }
+.dpad .up-left { grid-area: 1 / 1; }
+.dpad .up { grid-area: 1 / 2; }
+.dpad .up-right { grid-area: 1 / 3; }
+.dpad .left { grid-area: 2 / 1; }
+.dpad .right { grid-area: 2 / 3; }
+.dpad .down-left { grid-area: 3 / 1; }
+.dpad .down { grid-area: 3 / 2; }
+.dpad .down-right { grid-area: 3 / 3; }
+
+@media (pointer: coarse) {
+  .touch { display: block; }
+  .hint.touch { display: block; }
+  .hint:not(.touch) { display: none; }
+}
