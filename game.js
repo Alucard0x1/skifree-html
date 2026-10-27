@@ -730,7 +730,8 @@
           const prev = game.trail[i - 2];
           const sx = drawX(p.x);
           const sy = p.y - camY;
-          if (!prev || prev.side !== side || Math.abs(p.y - prev.y) > 60) {
+          if (!prev || prev.side !== side || Math.abs(p.y - prev.y) > 60 ||
+              Math.abs(p.x - prev.x) > 200) {
             ctx.moveTo(sx, sy);
             pen = true;
           } else if (pen) {
