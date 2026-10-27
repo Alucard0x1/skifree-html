@@ -14,6 +14,21 @@
 (() => {
   'use strict';
 
+  // Safari < 16 has no roundRect; the sprites lean on it.
+  if (typeof CanvasRenderingContext2D !== 'undefined' &&
+      !CanvasRenderingContext2D.prototype.roundRect) {
+    CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+      const radius = Math.min(typeof r === 'number' ? r : 0, Math.abs(w) / 2, Math.abs(h) / 2);
+      this.moveTo(x + radius, y);
+      this.arcTo(x + w, y, x + w, y + h, radius);
+      this.arcTo(x + w, y + h, x, y + h, radius);
+      this.arcTo(x, y + h, x, y, radius);
+      this.arcTo(x, y, x + w, y, radius);
+      this.closePath();
+      return this;
+    };
+  }
+
   // ---------------------------------------------------------------- config
   const MODES = {
     slalom: {
@@ -191,11 +206,11 @@
   function buildGates() {
     if (!game.cfg.gates) return;
     const gap = 8 * PX_PER_M;
-    const total = Math.floor(game.cfg.length / 70);
+    const total = Math.floor(game.cfg.length / 60);
     game.gateTotal = total;
     for (let i = 1; i <= total; i++) {
-      const y = i * 70 * PX_PER_M;
-      const x = WORLD_W * 0.5 + Math.sin(i * 1.7) * WORLD_W * 0.26;
+      const y = i * 60 * PX_PER_M;
+      const x = WORLD_W * 0.5 + Math.sin(i * 1.7) * WORLD_W * 0.12;
       game.objects.push({ kind: 'gate', x, y, gap, index: i, r: 0 });
     }
   }

@@ -5,7 +5,7 @@ mountain always wins. Three course modes, eight-direction skiing, slalom gates,
 rainbow jump pads, runaway dogs — and the yeti released the moment the course is
 behind you.
 
-**Live:** _set after first deploy_
+**Live:** https://skifree-html.vercel.app
 
 No build step, no dependencies, no framework. `index.html` + `game.js` + `style.css`.
 

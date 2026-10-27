@@ -9,3 +9,5 @@ artifacts/
 *.exe
 *.zip
 analysis/
+
+.vercel

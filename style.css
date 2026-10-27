@@ -49,6 +49,7 @@ canvas#game {
   letter-spacing: 0.02em;
   pointer-events: none;
   backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 .hud .row { display: flex; gap: 8px; white-space: nowrap; }
 .hud .lbl { color: #445c6b; min-width: 46px; }
@@ -199,6 +200,7 @@ canvas#game {
   font-size: 17px;
   line-height: 1;
   backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   touch-action: none;
 }
 .dpad button:active, .dpad button.held { background: rgba(192, 57, 43, 0.72); }
